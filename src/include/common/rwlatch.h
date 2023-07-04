@@ -15,7 +15,7 @@
 #include <mutex>  // NOLINT
 #include <shared_mutex>
 
-#include "common/macros.h"
+#include "macros.h"
 
 namespace bustub {
 
