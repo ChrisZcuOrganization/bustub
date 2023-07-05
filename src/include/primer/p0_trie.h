@@ -19,8 +19,8 @@
 #include <utility>
 #include <vector>
 
-// #include "common/exception.h"
-#include "../common/rwlatch.h"
+#include "common/exception.h"
+#include "common/rwlatch.h"
 
 namespace bustub {
 
@@ -219,6 +219,7 @@ class TrieNodeWithValue : public TrieNode {
    * @brief Destroy the Trie Node With Value object
    */
   ~TrieNodeWithValue() override = default;
+  
 
   /**
    * @brief Get the stored value_.
@@ -292,9 +293,9 @@ class Trie {
     char key_char = key[key.size() - 1];
     node = node->get()->GetChildNode(key_char);
     if (node == nullptr) {
-      node->get()->InsertChildNode(key_char, std::make_unique<TrieNodeWithValue>(key_char, value));
+      node->get()->InsertChildNode(key_char, std::make_unique<bustub::TrieNodeWithValue>(key_char, value));
     } else {
-      if (!node->get()->is_end_) {
+      if (!node->get()->IsEndNode()) {
         node->reset(new TrieNodeWithValue<T>(std::move(*(node->get())), value));
       } else {
         res = false;
@@ -410,9 +411,9 @@ class Trie {
 }  // namespace bustub
 
 int main(int argc, char const *argv[]) {
-  char c = 't';
-  // bustub::TrieNode *node = bustub::new TrieNode(c);
-  bustub::TrieNode node('c');
+  // char c = 't';
+  // // bustub::TrieNode *node = bustub::new TrieNode(c);
+  // bustub::TrieNode node('c');
   return 0;
   
 }
