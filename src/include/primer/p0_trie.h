@@ -415,5 +415,5 @@ int main(int argc, char const *argv[]) {
   // // bustub::TrieNode *node = bustub::new TrieNode(c);
   // bustub::TrieNode node('c');
   return 0;
-  
+
 }
