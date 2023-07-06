@@ -21,16 +21,21 @@
 
 namespace bustub {
 
+// param: bucket_size: fixed bucket size for each bucket
 template <typename K, typename V>
 ExtendibleHashTable<K, V>::ExtendibleHashTable(size_t bucket_size)
-    : global_depth_(0), bucket_size_(bucket_size), num_buckets_(1) {}
-
+    : global_depth_(0), bucket_size_(bucket_size), num_buckets_(1) {
+  std ::shared_ptr<Bucket> b(bucket_size);
+  dir_.push_back(b);
+}
+// get the hash value of the key
 template <typename K, typename V>
 auto ExtendibleHashTable<K, V>::IndexOf(const K &key) -> size_t {
   int mask = (1 << global_depth_) - 1;
   return std::hash<K>()(key) & mask;
 }
 
+//
 template <typename K, typename V>
 auto ExtendibleHashTable<K, V>::GetGlobalDepth() const -> int {
   std::scoped_lock<std::mutex> lock(latch_);
@@ -63,20 +68,26 @@ template <typename K, typename V>
 auto ExtendibleHashTable<K, V>::GetNumBucketsInternal() const -> int {
   return num_buckets_;
 }
-
+// get the index of the kye and check the bucket
 template <typename K, typename V>
 auto ExtendibleHashTable<K, V>::Find(const K &key, V &value) -> bool {
-  UNREACHABLE("not implemented");
+  std::scoped_lock<std::mutex> lock(latch_);
+  size_t index = IndexOf(key);
+  return static_cast<bool>(dir_[index]->Find(key, value));
 }
 
 template <typename K, typename V>
 auto ExtendibleHashTable<K, V>::Remove(const K &key) -> bool {
-  UNREACHABLE("not implemented");
+  std::scoped_lock<std::mutex> lock(latch_);
+  size_t index = IndexOf(key);
+  return static_cast<bool>(dir_[index]->Remove(key));
 }
 
 template <typename K, typename V>
 void ExtendibleHashTable<K, V>::Insert(const K &key, const V &value) {
-  UNREACHABLE("not implemented");
+  std::scoped_lock<std::mutex> lock(latch_);
+  size_t index = IndexOf(key);
+  
 }
 
 //===--------------------------------------------------------------------===//
